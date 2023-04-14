@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { JSONResponse } from './utils/json-response.js'
-import { getPins, PIN_OK_STATUS, waitAndUpdateOkPins } from './utils/pin.js'
+import { getPins, PIN_OK_STATUS, waitAndUpdateOkPins, fetchAndUpdatePins } from './utils/pin.js'
 import { PSAErrorDB, PSAErrorResourceNotFound, PSAErrorInvalidData, PSAErrorRequiredData, PinningServiceApiError } from './errors.js'
 import {
   INVALID_REQUEST_ID,
@@ -81,10 +81,11 @@ async function createPin (normalizedCid, pinData, authTokenId, env, ctx) {
   const pinName = pinData.name || undefined
   const pinMeta = pinData.meta || undefined
 
-  await env.cluster.pin(cid, {
+  const pinRes = await env.cluster.pin(cid, {
     name: pinName,
     origins
   })
+  const delegates = pinRes?.metadata?.delegates
   const pins = await getPins(cid, env.cluster)
 
   const pinRequestData = {
@@ -100,7 +101,7 @@ async function createPin (normalizedCid, pinData, authTokenId, env, ctx) {
   const pinRequest = await env.db.createPsaPinRequest(pinRequestData)
 
   /** @type {PsaPinStatusResponse} */
-  const pinStatus = toPinStatusResponse(pinRequest)
+  const pinStatus = toPinStatusResponse(pinRequest, delegates)
 
   /** @type {(() => Promise<any>)[]} */
   const tasks = []
@@ -142,6 +143,13 @@ export async function pinGet (request, env, ctx) {
   } catch (e) {
     console.error(e)
     throw new PSAErrorResourceNotFound()
+  }
+
+  const inProgress = pinRequest.pins.filter((p) => p.status === 'PinQueued' || p.status === 'Pinning')
+
+  if (inProgress.length > 0) {
+    await fetchAndUpdatePins(pinRequest.contentCid, env.cluster, env.db)
+    pinRequest = await env.db.getPsaPinRequest(authToken._id, request.params.requestId)
   }
 
   /** @type { PsaPinStatusResponse } */
@@ -188,9 +196,10 @@ export async function pinsGet (request, env, ctx) {
  * Transform a PinRequest into a PinStatus
  *
  * @param { import('../../db/db-client-types.js').PsaPinRequestUpsertOutput } pinRequest
+ * @param {string[]} delegates
  * @returns { PsaPinStatusResponse }
  */
-export function toPinStatusResponse (pinRequest) {
+export function toPinStatusResponse (pinRequest, delegates = []) {
   return {
     requestid: pinRequest._id.toString(),
     status: getEffectivePinStatus(pinRequest.pins),
@@ -201,7 +210,7 @@ export function toPinStatusResponse (pinRequest) {
       ...pinRequest.origins && { origins: pinRequest.origins },
       ...pinRequest.meta && { meta: pinRequest.meta }
     },
-    delegates: []
+    delegates
   }
 }
 

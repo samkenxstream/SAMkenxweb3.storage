@@ -3,13 +3,14 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3/dist-es/commands/PutObjectCommand.js'
 import { CarBlockIterator } from '@ipld/car'
 import { CarIndexer } from '@ipld/car/indexer'
-import { toString, equals } from 'uint8arrays'
+import { toString } from 'uint8arrays'
 import { LinkIndexer } from 'linkdex'
 import { maybeDecode } from 'linkdex/decode'
 import { CID } from 'multiformats/cid'
 import { sha256 } from 'multiformats/hashes/sha2'
 import * as raw from 'multiformats/codecs/raw'
 import * as pb from '@ipld/dag-pb'
+import { validateBlock } from '@web3-storage/car-block-validator'
 import pRetry from 'p-retry'
 import { MultihashIndexSortedWriter } from 'cardex'
 import { InvalidCarError, LinkdexError } from './errors.js'
@@ -342,7 +343,7 @@ export async function putToR2 (env, key, carBytes, carCid, rootCid, structure = 
     // assuming mostly unique cars, but could check for existence here before writing.
     return await pRetry(async () => env.CARPARK.put(key, carBytes, opts), { retries: 3 })
   } catch (cause) {
-    throw new Error('Failed to upload CAR to R2', { cause })
+    throw new Error(`Failed to upload CAR to R2: ${key}`, { cause })
   } finally {
     env.log.timeEnd('putToR2')
   }
@@ -379,7 +380,7 @@ export async function writeSatNavIndex (env, carCid, carBytes) {
     // assuming mostly unique cars, but could check for existence here before writing.
     return await pRetry(async () => env.SATNAV.put(key, indexBytes, opts), { retries: 3 })
   } catch (cause) {
-    throw new Error('Failed to write satnav index to R2', { cause })
+    throw new Error(`Failed to write satnav index to R2: ${key}`, { cause })
   } finally {
     env.log.timeEnd('writeSatNavIndex')
   }
@@ -400,7 +401,7 @@ export async function writeDudeWhereIndex (env, rootCid, carCid) {
   try {
     return await pRetry(async () => env.DUDEWHERE.put(key, data), { retries: 3 })
   } catch (cause) {
-    throw new Error('Failed to write dudewhere index to R2', { cause })
+    throw new Error(`Failed to write dudewhere index to R2: ${key}`, { cause })
   } finally {
     env.log.timeEnd('writeDudeWhereIndex')
   }
@@ -438,12 +439,7 @@ async function carStat (carBytes) {
     if (blockSize > MAX_BLOCK_SIZE) {
       throw new InvalidCarError(`block too big: ${blockSize} > ${MAX_BLOCK_SIZE}`)
     }
-    if (block.cid.multihash.code === sha256.code) {
-      const ourHash = await sha256.digest(block.bytes)
-      if (!equals(ourHash.digest, block.cid.multihash.digest)) {
-        throw new InvalidCarError(`block data does not match CID for ${block.cid.toString()}`)
-      }
-    }
+    await validateBlock(block)
     if (!rawRootBlock && block.cid.equals(rootCid)) {
       rawRootBlock = block
     }

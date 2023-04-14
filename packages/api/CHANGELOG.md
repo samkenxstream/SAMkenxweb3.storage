@@ -1,5 +1,47 @@
 # Changelog
 
+## [7.16.0](https://github.com/web3-storage/web3.storage/compare/api-v7.15.4...api-v7.16.0) (2023-03-22)
+
+
+### Features
+
+* provide delegates on pin add response ([#2255](https://github.com/web3-storage/web3.storage/issues/2255)) ([5764145](https://github.com/web3-storage/web3.storage/commit/5764145230dcb5bb4c3cbcc0de54092e28dd31d2))
+
+## [7.15.4](https://github.com/web3-storage/web3.storage/compare/api-v7.15.3...api-v7.15.4) (2023-03-17)
+
+
+### Bug Fixes
+
+* update pin status from GET /pins even if failed ([#2235](https://github.com/web3-storage/web3.storage/issues/2235)) ([78bbcdb](https://github.com/web3-storage/web3.storage/commit/78bbcdb019458c13395f07b44c8804d5e16b9788))
+
+## [7.15.3](https://github.com/web3-storage/web3.storage/compare/api-v7.15.2...api-v7.15.3) (2023-03-15)
+
+
+### Bug Fixes
+
+* use car block validator ([#2241](https://github.com/web3-storage/web3.storage/issues/2241)) ([13fcc6c](https://github.com/web3-storage/web3.storage/commit/13fcc6c70e6f2af81e78f149c6e507109adc5563))
+
+## [7.15.2](https://github.com/web3-storage/web3.storage/compare/api-v7.15.1...api-v7.15.2) (2023-03-10)
+
+
+### Bug Fixes
+
+* stop creating a Stripe account during web3.storage account creation ([#2226](https://github.com/web3-storage/web3.storage/issues/2226)) ([425ac5c](https://github.com/web3-storage/web3.storage/commit/425ac5c0b6f92ffa038077b08237a4201dfa5615))
+
+## [7.15.1](https://github.com/web3-storage/web3.storage/compare/api-v7.15.0...api-v7.15.1) (2023-02-22)
+
+
+### Bug Fixes
+
+* include R2 key in error message ([#2219](https://github.com/web3-storage/web3.storage/issues/2219)) ([5a320f4](https://github.com/web3-storage/web3.storage/commit/5a320f4258c9c757075545762d0a65dbb602daaf))
+
+## [7.15.0](https://github.com/web3-storage/web3.storage/compare/api-v7.14.0...api-v7.15.0) (2023-02-21)
+
+
+### Features
+
+* recheck pin status on GET /pins/:req-id ([#2214](https://github.com/web3-storage/web3.storage/issues/2214)) ([91f067f](https://github.com/web3-storage/web3.storage/commit/91f067fabbea2403280b25cc555cd88fb062e201))
+
 ## [7.14.0](https://github.com/web3-storage/web3.storage/compare/api-v7.13.1...api-v7.14.0) (2023-01-13)
 
 
