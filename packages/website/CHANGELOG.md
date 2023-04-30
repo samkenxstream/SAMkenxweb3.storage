@@ -1,5 +1,37 @@
 # Changelog
 
+## [2.35.4](https://github.com/web3-storage/web3.storage/compare/website-v2.35.3...website-v2.35.4) (2023-03-16)
+
+
+### Bug Fixes
+
+* w3link rate limit in docs ([#2250](https://github.com/web3-storage/web3.storage/issues/2250)) ([ef67051](https://github.com/web3-storage/web3.storage/commit/ef6705191a51a48b7b056e9c0fc06e3733787121))
+
+## [2.35.3](https://github.com/web3-storage/web3.storage/compare/website-v2.35.2...website-v2.35.3) (2023-03-13)
+
+
+### Bug Fixes
+
+* clarify docs when status is pinning ([#2242](https://github.com/web3-storage/web3.storage/issues/2242)) ([04ff58a](https://github.com/web3-storage/web3.storage/commit/04ff58ac0a488360926f9c9e8c31184c53da4d1d))
+* fix app failure when clicking 'Account +' on mobile ([#2240](https://github.com/web3-storage/web3.storage/issues/2240)) ([34e64ea](https://github.com/web3-storage/web3.storage/commit/34e64ea1135915ebdfe9951689756c273c64eabf)), closes [#2223](https://github.com/web3-storage/web3.storage/issues/2223)
+
+## [2.35.2](https://github.com/web3-storage/web3.storage/compare/website-v2.35.1...website-v2.35.2) (2023-03-07)
+
+
+### Bug Fixes
+
+* apply workaround to Simple Analytics blocking navigation to /docs ([#2238](https://github.com/web3-storage/web3.storage/issues/2238)) ([29ab7fa](https://github.com/web3-storage/web3.storage/commit/29ab7fa86f98e1334599e3158f51bbb43eaa13f9)), closes [#2237](https://github.com/web3-storage/web3.storage/issues/2237)
+
+## [2.35.1](https://github.com/web3-storage/web3.storage/compare/website-v2.35.0...website-v2.35.1) (2023-02-23)
+
+
+### Bug Fixes
+
+* display those with no subscription as Free Tier users ([#2221](https://github.com/web3-storage/web3.storage/issues/2221)) ([81081bd](https://github.com/web3-storage/web3.storage/commit/81081bd6760b5277a9f194f468ce5abd9e255f84))
+* PSA language emphasizing not for production ([#2209](https://github.com/web3-storage/web3.storage/issues/2209)) ([6f06ca7](https://github.com/web3-storage/web3.storage/commit/6f06ca7dd87737ba08ae2c6bcc619f0951b2545c))
+* remove '/mo' from free tier description ([#2203](https://github.com/web3-storage/web3.storage/issues/2203)) ([769fd67](https://github.com/web3-storage/web3.storage/commit/769fd6770a54d2aa826b6cd4a8cec1f2ac384ce3)), closes [#2173](https://github.com/web3-storage/web3.storage/issues/2173)
+* update price displayed in UI to reflect advertised price ([#2207](https://github.com/web3-storage/web3.storage/issues/2207)) ([da1b1d8](https://github.com/web3-storage/web3.storage/commit/da1b1d832b583bf04a53f77c3b5e1aaa110ba865))
+
 ## [2.35.0](https://github.com/web3-storage/web3.storage/compare/website-v2.34.0...website-v2.35.0) (2023-01-13)
 
 
