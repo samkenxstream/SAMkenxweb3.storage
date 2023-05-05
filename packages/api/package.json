@@ -80,7 +80,7 @@
     "multiformats": "^9.5.8",
     "nanoid": "^3.1.30",
     "p-retry": "^5.1.1",
-    "protobufjs": "^6.11.2",
+    "protobufjs": "^6.11.3",
     "sinon": "^14.0.2",
     "stripe": "^10.7.0",
     "toucan-js": "^2.7.0",
